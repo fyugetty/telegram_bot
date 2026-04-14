@@ -1,5 +1,7 @@
 from fastapi import FastAPI, UploadFile
 import whisper
+import uvicorn
+from config import Config
 
 app = FastAPI()
 model = whisper.load_model("base")
@@ -12,3 +14,5 @@ async def transcribe(audio: UploadFile):
     result = model.transcribe("temp.ogg")
     return {result["text"]}
 
+if __name__ == "__main__":
+    uvicorn.run(app, host=Config.WHISPER_HOST, port=Config.WHISPER_PORT)
